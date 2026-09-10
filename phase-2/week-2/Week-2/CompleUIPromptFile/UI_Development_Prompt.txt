@@ -1,0 +1,60 @@
+Act as a Principal Frontend Engineer and Lead UI/UX Designer for Veridian Systems.
+
+Create a single-page, enterprise-grade AI GitHub Code Reviewer web dashboard titled "Veridian Systems — GitHub Code Reviewer".
+
+System & Branding Requirements:
+1. Brand Identity:
+   - Organization: Veridian Systems
+   - App Title: Veridian Systems — GitHub Code Reviewer
+   - Primary Theme: Obsidian Dark background (#0B0F19), premium glassmorphism surfaces, electric blue accents, and soft cyan highlights.
+   - Typography: IBM Plex Sans / Sora / IBM Plex Mono.
+   - Visual style: clean, premium, and developer-focused with strong dark-mode appeal.
+
+2. UI Layout Structure:
+   - Top Header: sticky glassmorphism header containing the brand, product name, and status indicator.
+   - 2-Column Dashboard Grid:
+     * Left Column (Control Sidebar): GitHub repo, folder, or file URL field; review button; review scope checkboxes; validation state area.
+     * Right Column (Workspace Canvas): dynamic summary and review results panel.
+   - Footer: simple corporate footer with brand and support links.
+
+3. Dynamic UI Behavior & Logic:
+   - Validation: If the URL field is empty, apply the existing error card state and keep the request from firing.
+   - Loading State: When analysis is triggered, lock form inputs, display the loading view, and cycle status messages every 1.5 seconds:
+     * Fetching source file...
+     * Contacting GitHub...
+     * Scanning the code...
+     * Scoring code quality and security...
+     * Compiling recommendations...
+   - Webhook Communication: Perform an async POST request to /webhook/codemark-code-reviewer with JSON payload:
+     {
+       "fileUrl": "<user_input>"
+     }
+   - Response Rendering: Parse incoming result data defensively from possible shapes such as a plain string, an object with a review field, or nested arrays. Extract the review text from whichever form is returned.
+   - Score Rendering: Show score table values dynamically and keep them under the Review File button.
+   - Error Handling: If the request fails or times out, show a clear error message in the workspace, re-enable the form, and clear the loading state.
+
+4. Functional Requirements:
+   - The dashboard must accept GitHub repo, folder, and file URLs.
+   - The review output must be tied to the actual selected GitHub contents.
+   - No static demo values should be used for the score table or summary.
+   - The review should show dynamic category breakdowns such as:
+     * Code Quality
+     * Security
+     * Best Practices
+     * Performance
+     * Maintainability
+     * Recommendation
+   - The top metric cards should reflect the real repo/folder review values and not remain hardcoded.
+
+5. Deliverables:
+   - Must be implemented in a single HTML file and a separate JavaScript file.
+   - No inline JavaScript allowed in the HTML file.
+   - All logic belongs in script.js.
+
+Design Goal:
+Create a polished, enterprise-grade code review dashboard that feels modern, trustworthy, and technical, with a high-end developer tooling aesthetic.
+
+Output Requirements:
+- Provide a single, complete, production-ready HTML structure and separate JS logic file.
+- Use CSS for styling and JS for all behavior.
+- Keep the design consistent with the Veridian Systems GitHub Code Reviewer dashboard style and the user’s requested review workflow.

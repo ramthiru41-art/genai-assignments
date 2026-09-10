@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Veridian Systems — GitHub Code Reviewer, an AI-powered repository analysis dashboard.">
+  <title>Veridian Systems | GitHub Code Reviewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Veridian Systems GitHub Code Reviewer home">
+      <span class="brand-mark" aria-hidden="true">V</span>
+      <span class="brand-copy">
+        <span class="brand-name">Veridian Systems</span>
+        <span class="product-name">GitHub Code Reviewer</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Primary navigation">
+      <a class="nav-link active" href="#" aria-current="page">Dashboard</a>
+      <a class="nav-link" href="#">Repositories</a>
+      <a class="nav-link" href="#">Review History</a>
+      <a class="nav-link" href="#">Docs</a>
+    </nav>
+
+    <div class="header-actions">
+      <span class="engine-status"><span class="status-dot" aria-hidden="true"></span>GitHub Code Reviewer · Online</span>
+      <span class="avatar" aria-label="User avatar">VS</span>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <aside class="control-card" aria-labelledby="run-review-title">
+      <h1 class="card-heading" id="run-review-title">Run a Review</h1>
+      <div class="field-group">
+        <label class="field-label" for="github-file-url">GitHub repo, folder, or file URL</label>
+        <input
+          class="url-input"
+          id="github-file-url"
+          name="github-file-url"
+          type="url"
+          placeholder="https://github.com/owner/repo/tree/main/folder or https://raw.githubusercontent.com/owner/repo/main/path/File.java"
+        >
+        <span class="validation-message">Enter a GitHub repo, folder, or file URL to continue.</span>
+      </div>
+
+      <fieldset class="scope-list">
+        <legend class="scope-legend">Review scopes</legend>
+        <label class="scope-item"><input type="checkbox" checked>Code Quality</label>
+        <label class="scope-item"><input type="checkbox" checked>Security</label>
+        <label class="scope-item"><input type="checkbox" checked>Best Practices</label>
+        <label class="scope-item"><input type="checkbox" checked>Performance</label>
+        <label class="scope-item"><input type="checkbox" checked>Maintainability</label>
+      </fieldset>
+
+      <button class="review-button" type="button">Review File</button>
+      <button class="loading-review-button" type="button" disabled>Reviewing...</button>
+
+      <div class="review-score-panel" id="review-score-panel" aria-live="polite" hidden>
+        <h2 class="review-score-title">Review Score</h2>
+        <table class="review-score-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody id="review-score-body"></tbody>
+        </table>
+      </div>
+    </aside>
+
+    <section class="review-workspace" aria-labelledby="workspace-title">
+      <div class="metrics" aria-label="Review metrics" hidden>
+        <article class="metric-card">
+          <span class="metric-value" id="metric-files-reviewed">0</span>
+          <span class="metric-label">Files Reviewed</span>
+        </article>
+        <article class="metric-card">
+          <span class="metric-value" id="metric-code-quality">0%</span>
+          <span class="metric-label">Avg Code Quality Score</span>
+        </article>
+        <article class="metric-card">
+          <span class="metric-value" id="metric-sync-status">Inactive</span>
+          <span class="metric-label">GitHub Sync</span>
+        </article>
+      </div>
+
+      <div class="workspace-card state-waiting">
+        <h2 class="workspace-title" id="workspace-title">Review Workspace</h2>
+
+        <div class="workspace-state state-waiting" aria-live="polite">
+          <span class="state-icon" aria-hidden="true">&lt;/&gt;</span>
+          <h3 class="state-heading">No review yet</h3>
+          <p class="state-copy">Paste a raw GitHub file URL, then click Review File.</p>
+        </div>
+
+        <div class="workspace-state state-loading" aria-live="polite">
+          <div class="progress-track" role="progressbar" aria-label="Review progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="52">
+            <span class="progress-value"></span>
+          </div>
+          <p class="loading-status">Fetching source file...</p>
+        </div>
+
+        <div class="workspace-state state-error" aria-live="assertive">
+          <div class="error-state">
+            <h3 class="state-heading">Review could not start</h3>
+            <p class="state-copy">Check the file URL and try again.</p>
+            <span class="error-detail" id="review-error-detail"></span>
+          </div>
+        </div>
+
+        <div class="workspace-state state-result review-output" aria-live="polite">
+          <div class="review-output-text review-markdown" id="review-output-text"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-brand">Veridian Systems</span>
+    <span>© 2026 Veridian Systems</span>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="#">Documentation</a>
+      <a href="#">Support</a>
+      <a href="#">Status</a>
+    </nav>
+  </footer>
+
+  <div class="completion-toast" id="completion-toast" role="status" aria-live="polite">Review Complete</div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
